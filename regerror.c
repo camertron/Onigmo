@@ -199,12 +199,16 @@ onig_error_code_to_format(OnigPosition code)
 
 static void sprint_byte(char* s, unsigned int v)
 {
+  #ifndef WASM
   xsnprintf(s, 3, "%02x", (v & 0377));
+  #endif
 }
 
 static void sprint_byte_with_x(char* s, unsigned int v)
 {
+  #ifndef WASM
   xsnprintf(s, 5, "\\x%02x", (v & 0377));
+  #endif
 }
 
 static int to_ascii(OnigEncoding enc, UChar *s, UChar *end,
@@ -333,7 +337,9 @@ onig_vsnprintf_with_pattern(UChar buf[], int bufsize, OnigEncoding enc,
   UChar *p, *s, *bp;
   UChar bs[6];
 
+  #ifndef WASM
   n = xvsnprintf((char* )buf, bufsize, (const char* )fmt, args);
+  #endif
 
   need = (pat_end - pat) * 4 + 4;
 
