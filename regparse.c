@@ -30,6 +30,7 @@
 
 #include "regparse.h"
 #include <stdarg.h>
+#include <stdio.h>
 
 #define WARN_BUFSIZE    256
 
@@ -6653,4 +6654,12 @@ onig_scan_env_set_error_string(ScanEnv* env, int ecode ARG_UNUSED,
 {
   env->error     = arg;
   env->error_end = arg_end;
+}
+
+extern void *allocate(int size) {
+  return malloc(size);
+}
+
+extern void deallocate(void *ptr) {
+  free(ptr);
 }

@@ -69,6 +69,7 @@ extern "C" {
 RUBY_SYMBOL_EXPORT_BEGIN
 
 #include <stddef.h>		/* for size_t */
+#include <stdarg.h>
 
 /* PART: character encoding */
 
@@ -183,99 +184,14 @@ typedef const OnigEncodingType* OnigEncoding;
 
 ONIG_EXTERN const OnigEncodingType OnigEncodingASCII;
 #ifndef RUBY
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_1;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_2;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_3;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_4;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_5;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_6;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_7;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_8;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_9;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_10;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_11;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_13;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_14;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_15;
-ONIG_EXTERN const OnigEncodingType OnigEncodingISO_8859_16;
-ONIG_EXTERN const OnigEncodingType OnigEncodingUTF_8;
 ONIG_EXTERN const OnigEncodingType OnigEncodingUTF_16BE;
 ONIG_EXTERN const OnigEncodingType OnigEncodingUTF_16LE;
-ONIG_EXTERN const OnigEncodingType OnigEncodingUTF_32BE;
-ONIG_EXTERN const OnigEncodingType OnigEncodingUTF_32LE;
-ONIG_EXTERN const OnigEncodingType OnigEncodingEUC_JP;
-ONIG_EXTERN const OnigEncodingType OnigEncodingEUC_TW;
-ONIG_EXTERN const OnigEncodingType OnigEncodingEUC_KR;
-ONIG_EXTERN const OnigEncodingType OnigEncodingEUC_CN;
-ONIG_EXTERN const OnigEncodingType OnigEncodingShift_JIS;
-ONIG_EXTERN const OnigEncodingType OnigEncodingWindows_31J;
-/* ONIG_EXTERN const OnigEncodingType OnigEncodingKOI8; */
-ONIG_EXTERN const OnigEncodingType OnigEncodingKOI8_R;
-ONIG_EXTERN const OnigEncodingType OnigEncodingKOI8_U;
-ONIG_EXTERN const OnigEncodingType OnigEncodingWindows_1250;
-ONIG_EXTERN const OnigEncodingType OnigEncodingWindows_1251;
-ONIG_EXTERN const OnigEncodingType OnigEncodingWindows_1252;
-ONIG_EXTERN const OnigEncodingType OnigEncodingWindows_1253;
-ONIG_EXTERN const OnigEncodingType OnigEncodingWindows_1254;
-ONIG_EXTERN const OnigEncodingType OnigEncodingWindows_1257;
-ONIG_EXTERN const OnigEncodingType OnigEncodingBIG5;
-ONIG_EXTERN const OnigEncodingType OnigEncodingGB18030;
 #endif /* RUBY */
 
 #define ONIG_ENCODING_ASCII        (&OnigEncodingASCII)
 #ifndef RUBY
-# define ONIG_ENCODING_ISO_8859_1   (&OnigEncodingISO_8859_1)
-# define ONIG_ENCODING_ISO_8859_2   (&OnigEncodingISO_8859_2)
-# define ONIG_ENCODING_ISO_8859_3   (&OnigEncodingISO_8859_3)
-# define ONIG_ENCODING_ISO_8859_4   (&OnigEncodingISO_8859_4)
-# define ONIG_ENCODING_ISO_8859_5   (&OnigEncodingISO_8859_5)
-# define ONIG_ENCODING_ISO_8859_6   (&OnigEncodingISO_8859_6)
-# define ONIG_ENCODING_ISO_8859_7   (&OnigEncodingISO_8859_7)
-# define ONIG_ENCODING_ISO_8859_8   (&OnigEncodingISO_8859_8)
-# define ONIG_ENCODING_ISO_8859_9   (&OnigEncodingISO_8859_9)
-# define ONIG_ENCODING_ISO_8859_10  (&OnigEncodingISO_8859_10)
-# define ONIG_ENCODING_ISO_8859_11  (&OnigEncodingISO_8859_11)
-# define ONIG_ENCODING_ISO_8859_13  (&OnigEncodingISO_8859_13)
-# define ONIG_ENCODING_ISO_8859_14  (&OnigEncodingISO_8859_14)
-# define ONIG_ENCODING_ISO_8859_15  (&OnigEncodingISO_8859_15)
-# define ONIG_ENCODING_ISO_8859_16  (&OnigEncodingISO_8859_16)
-# define ONIG_ENCODING_UTF_8        (&OnigEncodingUTF_8)
 # define ONIG_ENCODING_UTF_16BE     (&OnigEncodingUTF_16BE)
 # define ONIG_ENCODING_UTF_16LE     (&OnigEncodingUTF_16LE)
-# define ONIG_ENCODING_UTF_32BE     (&OnigEncodingUTF_32BE)
-# define ONIG_ENCODING_UTF_32LE     (&OnigEncodingUTF_32LE)
-# define ONIG_ENCODING_EUC_JP       (&OnigEncodingEUC_JP)
-# define ONIG_ENCODING_EUC_TW       (&OnigEncodingEUC_TW)
-# define ONIG_ENCODING_EUC_KR       (&OnigEncodingEUC_KR)
-# define ONIG_ENCODING_EUC_CN       (&OnigEncodingEUC_CN)
-# define ONIG_ENCODING_SHIFT_JIS    (&OnigEncodingShift_JIS)
-# define ONIG_ENCODING_WINDOWS_31J  (&OnigEncodingWindows_31J)
-/* # define ONIG_ENCODING_KOI8         (&OnigEncodingKOI8) */
-# define ONIG_ENCODING_KOI8_R       (&OnigEncodingKOI8_R)
-# define ONIG_ENCODING_KOI8_U       (&OnigEncodingKOI8_U)
-# define ONIG_ENCODING_WINDOWS_1250 (&OnigEncodingWindows_1250)
-# define ONIG_ENCODING_WINDOWS_1251 (&OnigEncodingWindows_1251)
-# define ONIG_ENCODING_WINDOWS_1252 (&OnigEncodingWindows_1252)
-# define ONIG_ENCODING_WINDOWS_1253 (&OnigEncodingWindows_1253)
-# define ONIG_ENCODING_WINDOWS_1254 (&OnigEncodingWindows_1254)
-# define ONIG_ENCODING_WINDOWS_1257 (&OnigEncodingWindows_1257)
-# define ONIG_ENCODING_BIG5         (&OnigEncodingBIG5)
-# define ONIG_ENCODING_GB18030      (&OnigEncodingGB18030)
-
-/* old names */
-# define ONIG_ENCODING_SJIS         ONIG_ENCODING_SHIFT_JIS
-# define ONIG_ENCODING_CP932        ONIG_ENCODING_WINDOWS_31J
-# define ONIG_ENCODING_CP1250       ONIG_ENCODING_WINDOWS_1250
-# define ONIG_ENCODING_CP1251       ONIG_ENCODING_WINDOWS_1251
-# define ONIG_ENCODING_CP1252       ONIG_ENCODING_WINDOWS_1252
-# define ONIG_ENCODING_CP1253       ONIG_ENCODING_WINDOWS_1253
-# define ONIG_ENCODING_CP1254       ONIG_ENCODING_WINDOWS_1254
-# define ONIG_ENCODING_CP1257       ONIG_ENCODING_WINDOWS_1257
-# define ONIG_ENCODING_UTF8         ONIG_ENCODING_UTF_8
-# define ONIG_ENCODING_UTF16_BE     ONIG_ENCODING_UTF_16BE
-# define ONIG_ENCODING_UTF16_LE     ONIG_ENCODING_UTF_16LE
-# define ONIG_ENCODING_UTF32_BE     ONIG_ENCODING_UTF_32BE
-# define ONIG_ENCODING_UTF32_LE     ONIG_ENCODING_UTF_32LE
 #endif /* RUBY */
 
 #define ONIG_ENCODING_UNDEF    ((OnigEncoding )0)
@@ -627,6 +543,18 @@ ONIG_EXTERN const OnigSyntaxType*   OnigDefaultSyntax;
 
 /* internal error */
 #define ONIGERR_MEMORY                                         -5
+#define ONIGERR_MEMORY_CAMERON_1                               -51
+#define ONIGERR_MEMORY_CAMERON_2                               -52
+#define ONIGERR_MEMORY_CAMERON_3                               -53
+#define ONIGERR_MEMORY_CAMERON_4                               -54
+#define ONIGERR_MEMORY_CAMERON_5                               -55
+#define ONIGERR_MEMORY_CAMERON_6                               -56
+#define ONIGERR_MEMORY_CAMERON_7                               -57
+#define ONIGERR_MEMORY_CAMERON_8                               -58
+#define ONIGERR_MEMORY_CAMERON_9                               -59
+#define ONIGERR_MEMORY_CAMERON_10                              -60
+#define ONIGERR_MEMORY_CAMERON_11                              -61
+#define ONIGERR_MEMORY_CAMERON_12                              -62
 #define ONIGERR_TYPE_BUG                                       -6
 #define ONIGERR_PARSER_BUG                                    -11
 #define ONIGERR_STACK_BUG                                     -12
@@ -928,6 +856,13 @@ ONIG_EXTERN
 const char* onig_version(void);
 ONIG_EXTERN
 const char* onig_copyright(void);
+
+ONIG_EXTERN void *allocate(int size);
+ONIG_EXTERN void deallocate(void *ptr);
+
+// int printf(char const*, ...);
+// int vsnprintf(char *restrict s, size_t n, const char *restrict fmt, va_list ap);
+// int snprintf( char *restrict buffer, size_t bufsz, const char *restrict format, ... );
 
 RUBY_SYMBOL_EXPORT_END
 

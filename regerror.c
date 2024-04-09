@@ -199,12 +199,16 @@ onig_error_code_to_format(OnigPosition code)
 
 static void sprint_byte(char* s, unsigned int v)
 {
+  #ifndef WASM
   xsnprintf(s, 3, "%02x", (v & 0377));
+  #endif
 }
 
 static void sprint_byte_with_x(char* s, unsigned int v)
 {
+  #ifndef WASM
   xsnprintf(s, 5, "\\x%02x", (v & 0377));
+  #endif
 }
 
 static int to_ascii(OnigEncoding enc, UChar *s, UChar *end,
@@ -328,63 +332,63 @@ void
 onig_vsnprintf_with_pattern(UChar buf[], int bufsize, OnigEncoding enc,
                            UChar* pat, UChar* pat_end, const UChar *fmt, va_list args)
 {
-  size_t need;
-  int n, len;
-  UChar *p, *s, *bp;
-  UChar bs[6];
+  // size_t need;
+  // int n, len;
+  // UChar *p, *s, *bp;
+  // UChar bs[6];
 
-  n = xvsnprintf((char* )buf, bufsize, (const char* )fmt, args);
+  // n = xvsnprintf((char* )buf, bufsize, (const char* )fmt, args);
 
-  need = (pat_end - pat) * 4 + 4;
+  // need = (pat_end - pat) * 4 + 4;
 
-  if (n + need < (size_t )bufsize) {
-    static const char sep[] = ": /";
-    memcpy((char* )buf + n, sep, sizeof(sep));
-    s = buf + onigenc_str_bytelen_null(ONIG_ENCODING_ASCII, buf);
+  // if (n + need < (size_t )bufsize) {
+  //   static const char sep[] = ": /";
+  //   memcpy((char* )buf + n, sep, sizeof(sep));
+  //   s = buf + onigenc_str_bytelen_null(ONIG_ENCODING_ASCII, buf);
 
-    p = pat;
-    while (p < pat_end) {
-      if (ONIGENC_IS_MBC_HEAD(enc, p, pat_end)) {
-        len = enclen(enc, p, pat_end);
-        if (ONIGENC_MBC_MINLEN(enc) == 1) {
-          while (len-- > 0) *s++ = *p++;
-        }
-        else { /* for UTF16/32 */
-          int blen;
+  //   p = pat;
+  //   while (p < pat_end) {
+  //     if (ONIGENC_IS_MBC_HEAD(enc, p, pat_end)) {
+  //       len = enclen(enc, p, pat_end);
+  //       if (ONIGENC_MBC_MINLEN(enc) == 1) {
+  //         while (len-- > 0) *s++ = *p++;
+  //       }
+  //       else { /* for UTF16/32 */
+  //         int blen;
 
-          while (len-- > 0) {
-            sprint_byte_with_x((char* )bs, (unsigned int )(*p++));
-            blen = onigenc_str_bytelen_null(ONIG_ENCODING_ASCII, bs);
-            bp = bs;
-            while (blen-- > 0) *s++ = *bp++;
-          }
-        }
-      }
-      else if (*p == '\\') {
-	*s++ = *p++;
-	len = enclen(enc, p, pat_end);
-	while (len-- > 0) *s++ = *p++;
-      }
-      else if (*p == '/') {
-	*s++ = (unsigned char )'\\';
-	*s++ = *p++;
-      }
-      else if (!ONIGENC_IS_CODE_PRINT(enc, *p) &&
-	       (!ONIGENC_IS_CODE_SPACE(enc, *p) ||
-                ONIGENC_IS_CODE_CNTRL(enc, *p))) {
-	sprint_byte_with_x((char* )bs, (unsigned int )(*p++));
-	len = onigenc_str_bytelen_null(ONIG_ENCODING_ASCII, bs);
-        bp = bs;
-	while (len-- > 0) *s++ = *bp++;
-      }
-      else {
-	*s++ = *p++;
-      }
-    }
+  //         while (len-- > 0) {
+  //           sprint_byte_with_x((char* )bs, (unsigned int )(*p++));
+  //           blen = onigenc_str_bytelen_null(ONIG_ENCODING_ASCII, bs);
+  //           bp = bs;
+  //           while (blen-- > 0) *s++ = *bp++;
+  //         }
+  //       }
+  //     }
+  //     else if (*p == '\\') {
+	// *s++ = *p++;
+	// len = enclen(enc, p, pat_end);
+	// while (len-- > 0) *s++ = *p++;
+  //     }
+  //     else if (*p == '/') {
+	// *s++ = (unsigned char )'\\';
+	// *s++ = *p++;
+  //     }
+  //     else if (!ONIGENC_IS_CODE_PRINT(enc, *p) &&
+	//        (!ONIGENC_IS_CODE_SPACE(enc, *p) ||
+  //               ONIGENC_IS_CODE_CNTRL(enc, *p))) {
+	// sprint_byte_with_x((char* )bs, (unsigned int )(*p++));
+	// len = onigenc_str_bytelen_null(ONIG_ENCODING_ASCII, bs);
+  //       bp = bs;
+	// while (len-- > 0) *s++ = *bp++;
+  //     }
+  //     else {
+	// *s++ = *p++;
+  //     }
+  //   }
 
-    *s++ = '/';
-    *s   = '\0';
-  }
+  //   *s++ = '/';
+  //   *s   = '\0';
+  // }
 }
 
 #if 0 /* unused */
