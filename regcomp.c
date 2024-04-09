@@ -147,7 +147,7 @@ onig_bbuf_init(BBuf* buf, OnigDistance size)
   }
   else {
     buf->p = (UChar* )xmalloc(size);
-    if (IS_NULL(buf->p)) return(ONIGERR_MEMORY_CAMERON_2);
+    if (IS_NULL(buf->p)) return(ONIGERR_MEMORY);
   }
 
   buf->alloc = (unsigned int )size;
@@ -3397,7 +3397,7 @@ update_string_node_case_fold(regex_t* reg, Node *node)
 	UChar* p = (UChar* )xrealloc(sbuf, sbuf_size * 2);
 	if (IS_NULL(p)) {
 	  xfree(sbuf);
-	  return ONIGERR_MEMORY_CAMERON_3;
+	  return ONIGERR_MEMORY;
 	}
 	sbuf = p;
 	sp = sbuf + sbuf_size;
@@ -3423,7 +3423,7 @@ expand_case_fold_make_rem_string(Node** rnode, UChar *s, UChar *end,
   Node *node;
 
   node = onig_node_new_str(s, end);
-  if (IS_NULL(node)) return ONIGERR_MEMORY_CAMERON_4;
+  if (IS_NULL(node)) return ONIGERR_MEMORY;
 
   r = update_string_node_case_fold(reg, node);
   if (r != 0) {
@@ -3475,7 +3475,7 @@ expand_case_fold_string_alt(int item_num, OnigCaseFoldCodeItem items[],
 
   if (varlen != 0) {
     *rnode = var_anode = onig_node_new_alt(NULL_NODE, NULL_NODE);
-    if (IS_NULL(var_anode)) return ONIGERR_MEMORY_CAMERON_5;
+    if (IS_NULL(var_anode)) return ONIGERR_MEMORY;
 
     xnode = onig_node_new_list(NULL, NULL);
     if (IS_NULL(xnode)) goto mem_err;
@@ -3487,7 +3487,7 @@ expand_case_fold_string_alt(int item_num, OnigCaseFoldCodeItem items[],
   }
   else {
     *rnode = anode = onig_node_new_alt(NULL_NODE, NULL_NODE);
-    if (IS_NULL(anode)) return ONIGERR_MEMORY_CAMERON_6;
+    if (IS_NULL(anode)) return ONIGERR_MEMORY;
   }
 
   snode = onig_node_new_str(p, p + slen);
@@ -3563,7 +3563,7 @@ expand_case_fold_string_alt(int item_num, OnigCaseFoldCodeItem items[],
  mem_err:
   onig_node_free(*rnode);
 
-  return ONIGERR_MEMORY_CAMERON_7;
+  return ONIGERR_MEMORY;
 }
 
 #define THRESHOLD_CASE_FOLD_ALT_FOR_EXPANSION  8
@@ -3717,7 +3717,7 @@ expand_case_fold_string(Node* node, regex_t* reg, int state)
   return 0;
 
  mem_err:
-  r = ONIGERR_MEMORY_CAMERON_8;
+  r = ONIGERR_MEMORY;
 
  err:
   onig_node_free(top_root);
@@ -3992,7 +3992,7 @@ restart:
 	  Node* np;
 
 	  np = onig_node_new_str(sn->s, sn->end);
-	  if (IS_NULL(np)) return ONIGERR_MEMORY_CAMERON_9;
+	  if (IS_NULL(np)) return ONIGERR_MEMORY;
 	  NSTR(np)->flag = sn->flag;
 
 	  for (i = 1; i < n && (i+1) * len <= EXPAND_STRING_MAX_LENGTH; i++) {
@@ -4012,13 +4012,13 @@ restart:
 	    np1 = onig_node_new_list(np, NULL);
 	    if (IS_NULL(np1)) {
 	      onig_node_free(np);
-	      return ONIGERR_MEMORY_CAMERON_10;
+	      return ONIGERR_MEMORY;
 	    }
 	    swap_node(np1, node);
 	    np2 = onig_node_list_add(node, np1);
 	    if (IS_NULL(np2)) {
 	      onig_node_free(np1);
-	      return ONIGERR_MEMORY_CAMERON_11;
+	      return ONIGERR_MEMORY;
 	    }
 	  }
 	  else {
@@ -5879,7 +5879,7 @@ onig_new(regex_t** reg, const UChar* pattern, const UChar* pattern_end,
   int r;
 
   *reg = (regex_t* )xmalloc(sizeof(regex_t));
-  if (IS_NULL(*reg)) return ONIGERR_MEMORY_CAMERON_12;
+  if (IS_NULL(*reg)) return ONIGERR_MEMORY;
 
   r = onig_reg_init(*reg, option, ONIGENC_CASE_FOLD_DEFAULT, enc, syntax);
   if (r) goto err;

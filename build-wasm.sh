@@ -10,7 +10,7 @@ clang \
 	-flto \
 	-nostdlib \
 	-c \
-	$IPATH -I wasm -I . -I enc/unicode -Wl,-error-limit=0 \
+	$IPATH -I wasm -I . -I enc/unicode \
 	regparse.c regcomp.c regexec.c regext.c regerror.c \
 	regenc.c regtrav.c regversion.c st.c \
 	enc/unicode.c enc/ascii.c \
@@ -20,6 +20,8 @@ clang \
 wasm-ld \
 	--no-entry \
 	--export-all \
+	--unresolved-symbols=ignore-all \
+	--error-limit=0 \
 	-o onigmo.wasm \
 	*.o
 
