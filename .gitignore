@@ -56,7 +56,6 @@
 /missing
 /onigmo-config
 /onigmo.pc
-/Makefile
 /Makefile.in
 /sample/Makefile
 /sample/Makefile.in
