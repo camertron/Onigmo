@@ -5,4 +5,4 @@ RUN wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-21/w
     tar -zxvf wasi-sdk.tar.gz && \
     rm wasi-sdk.tar.gz
 WORKDIR /usr/src/onigmo
-CMD PATH=$PATH:/wasi-sdk-21.0/bin ./build-wasm.sh
+CMD PATH=$PATH:/wasi-sdk-21.0/bin ./script/build-wasm.sh

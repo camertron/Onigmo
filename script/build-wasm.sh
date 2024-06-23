@@ -7,10 +7,12 @@ clang \
 	-I wasm -I . -I enc/unicode -I /wasi-sdk-21.0/share/wasi-sysroot/include/ \
 	regparse.c regcomp.c regexec.c regext.c regerror.c \
 	regenc.c regtrav.c regversion.c st.c \
-	enc/unicode.c enc/utf_16le.c
+	enc/unicode.c enc/utf_16le.c enc/utf_8.c enc/ascii.c enc/us_ascii.c
 
 wasm-ld \
 	--export OnigEncodingUTF_16LE \
+	--export OnigEncodingUTF_8 \
+	--export OnigEncodingASCII \
 	--export OnigSyntaxRuby \
 	--export OnigDefaultCaseFoldFlag \
 	--export onig_new_deluxe \
